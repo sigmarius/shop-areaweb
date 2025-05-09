@@ -104,7 +104,7 @@ class ProductController extends Controller
         }
     }
 
-    public function review(Product $product, StoreReviewRequest $request)
+    public function addReview(Product $product, StoreReviewRequest $request)
     {
         return $product->reviews()->create([
             'user_id' => auth()->id(),
