@@ -6,11 +6,20 @@ use App\Enums\ProductStatusEnum;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        // TODO: имитация, реализовать после авторизации
+        // авторизует на текущую сессию любого пользователя-администратора
+        auth()->login(User::query()->inRandomOrder()->where('is_admin', true)->first());
+    }
+
     public function index()
     {
         $products = Product::query()
@@ -49,5 +58,39 @@ class ProductController extends Controller
                 'rating' => $review->rating
             ])
         ];
+    }
+
+    public function store(Request $request)
+    {
+        $product = auth()->user()->products()->create([
+            'name' => $request->str('name'),
+            'description' => $request->str('description'),
+            'price' => $request->input('price'),
+            'count' => $request->integer('count'),
+            'status' => $request->enum('status', ProductStatusEnum::class),
+        ]);
+
+        foreach ($request->file('images') as $image) {
+            // сохраняем картинку в публичном доступе
+            $path = $image->storePublicly('images');
+
+            $product->images()->create([
+                'url' => Storage::url($path),
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Product created',
+            'id' => $product->id
+        ])->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function review(Product $product, Request $request)
+    {
+        return $product->reviews()->create([
+            'user_id' => auth()->id(),
+            'text' => $request->str('text'),
+            'rating' => $request->integer('rating'),
+        ])->only('id');
     }
 }

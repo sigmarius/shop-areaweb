@@ -9,4 +9,7 @@ Route::controller(ProductController::class)
     ->group(function () {
         Route::get('', 'index')->name('products.index');
         Route::get('{product}', 'show')->name('products.show');
+
+        Route::post('', 'store')->name('products.store');
+        Route::post('{product}/review', 'review')->name('products.review.store');
     });
