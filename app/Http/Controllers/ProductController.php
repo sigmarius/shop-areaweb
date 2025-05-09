@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProductStatusEnum;
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Requests\Product\StoreReviewRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
@@ -60,7 +62,7 @@ class ProductController extends Controller
         ];
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         $product = auth()->user()->products()->create([
             'name' => $request->str('name'),
@@ -85,7 +87,7 @@ class ProductController extends Controller
         ])->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function review(Product $product, Request $request)
+    public function review(Product $product, StoreReviewRequest $request)
     {
         return $product->reviews()->create([
             'user_id' => auth()->id(),
