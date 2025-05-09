@@ -15,4 +15,6 @@ Route::controller(ProductController::class)
 
         Route::put('{product}', 'update')->name('products.update');
         Route::patch('{product}', 'update')->name('products.update');
+
+        Route::delete('{product}', 'destroy')->name('products.destroy');
     });

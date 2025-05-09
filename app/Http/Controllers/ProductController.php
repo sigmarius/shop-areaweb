@@ -112,4 +112,11 @@ class ProductController extends Controller
             'rating' => $request->integer('rating'),
         ])->only('id');
     }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return response()->json(status:  Response::HTTP_NO_CONTENT);
+    }
 }
