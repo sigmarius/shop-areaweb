@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ProductStatusEnum;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\StoreReviewRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
@@ -85,6 +86,22 @@ class ProductController extends Controller
             'message' => 'Product created',
             'id' => $product->id
         ])->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function update(Product $product, UpdateProductRequest $request)
+    {
+        if ($request->method() === 'PUT') {
+            $product->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'price' => $request->input('price'),
+                'count' => $request->input('count', null),
+                'status' => $request->enum('status', ProductStatusEnum::class),
+            ]);
+        } else {
+            // TODO использовать DTO
+            $product->update($request->validated());
+        }
     }
 
     public function review(Product $product, StoreReviewRequest $request)
