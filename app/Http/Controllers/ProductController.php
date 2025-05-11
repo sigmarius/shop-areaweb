@@ -19,9 +19,8 @@ class ProductController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            // в config/auth.php дефолтный guard задан как 'api',
-            // поэтому авторизация будет работать по умолчанию через этот guard
-            new Middleware('auth', except: ['index', 'show']),
+            // используется аутентификация от sanctum
+            new Middleware('auth:sanctum', except: ['index', 'show']),
         ];
     }
 

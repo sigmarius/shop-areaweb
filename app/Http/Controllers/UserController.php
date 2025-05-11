@@ -24,12 +24,10 @@ class UserController extends Controller
         // если мы проверяли пользователя через guard 'web' - получаем его также через guard 'web'
         $user = Auth::guard('web')->user();
 
-        $token = Str::random(60);
-
-        $user->update(['api_token' => $token]);
+        $token = $user->createToken($email);
 
         return response()->json([
-            'token' => $token,
+            'token' => $token->plainTextToken,
         ]);
     }
 }
