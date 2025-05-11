@@ -9,18 +9,20 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductReview;
-use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductController extends Controller
+class ProductController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware()
     {
-        // TODO: имитация, реализовать после авторизации
-        // авторизует на текущую сессию любого пользователя-администратора
-        auth()->login(User::query()->inRandomOrder()->where('is_admin', true)->first());
+        return [
+            // в config/auth.php дефолтный guard задан как 'api',
+            // поэтому авторизация будет работать по умолчанию через этот guard
+            new Middleware('auth', except: ['index', 'show']),
+        ];
     }
 
     public function index()
