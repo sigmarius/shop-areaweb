@@ -21,6 +21,12 @@ class ProductController extends Controller implements HasMiddleware
         return [
             // используется аутентификация от sanctum
             new Middleware('auth:sanctum', except: ['index', 'show']),
+
+            // проверка доступа - только для администраторов
+            new Middleware('admin', only: ['store', 'update', 'destroy']),
+
+            // проверка статуса продукта - просматривать можно только опубликованные
+            new Middleware('product.draft', only: ['show']),
         ];
     }
 
@@ -41,12 +47,6 @@ class ProductController extends Controller implements HasMiddleware
 
     public function show(Product $product)
     {
-        if ($product->status == ProductStatusEnum::Draft) {
-            return response()->json([
-                'message' => 'Product not found'
-            ])->setStatusCode(Response::HTTP_NOT_FOUND);
-        }
-
         return [
             'id' => $product->id,
             'name' => $product->name,

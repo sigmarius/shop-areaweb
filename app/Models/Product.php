@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id
@@ -77,5 +77,15 @@ class Product extends Model
     public function rating(): int|float
     {
         return round($this->reviews->avg('rating'), 1);
+    }
+
+    /**
+     * Продукт опубликован
+     *
+     * @return bool
+     */
+    public function isDraft(): bool
+    {
+        return $this->status === ProductStatusEnum::Draft;
     }
 }
