@@ -88,4 +88,11 @@ class Product extends Model
     {
         return $this->status === ProductStatusEnum::Draft;
     }
+
+    public function imagesList(): array
+    {
+        return $this->images
+            ->map(fn(ProductImage $image) => $image->url)
+            ->toArray();
+    }
 }
