@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Product;
+namespace App\Http\Resources\v1\Product;
 
 use App\Models\ProductReview;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Product;
+namespace App\Http\Resources\v2\Product;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -20,9 +20,9 @@ class ProductListResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'price' => $this->price,
-            'rating' => $this->rating()
+            'productName' => $this->name,
+            'productPrice' => $this->price,
+            'productRating' => $this->rating()
         ];
     }
 }

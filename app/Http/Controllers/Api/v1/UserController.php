@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller

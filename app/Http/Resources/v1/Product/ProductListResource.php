@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Product;
+namespace App\Http\Resources\v1\Product;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin Product
  */
-class ProductResource extends JsonResource
+class ProductListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,12 +21,8 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
             'price' => $this->price,
-            'rating' => $this->rating(),
-            'images' => $this->imagesList(),
-            'count' => $this->count,
-            'reviews' => ProductReviewResource::collection($this->reviews)
+            'rating' => $this->rating()
         ];
     }
 }

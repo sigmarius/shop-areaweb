@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Enums\ProductStatusEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\StoreReviewRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Http\Resources\Product\ProductListResource;
-use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\v1\Product\ProductListResource;
+use App\Http\Resources\v1\Product\ProductResource;
 use App\Models\Product;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
