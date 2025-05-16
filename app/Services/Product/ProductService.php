@@ -2,14 +2,15 @@
 
 namespace App\Services\Product;
 
+use App\DTOs\CreateProductDTO;
 use App\Enums\ProductStatusEnum;
 use App\Http\Controllers\Api\v1\ProductController;
-use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\StoreReviewRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductReview;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
@@ -38,23 +39,25 @@ class ProductService
             ->get();
     }
 
-    public function store(StoreProductRequest $request): Product
+    public function store(CreateProductDTO $dto): Product
     {
-        $product = auth()->user()->products()->create([
-            'name' => $request->str('name'),
-            'description' => $request->str('description'),
-            'price' => $request->input('price'),
-            'count' => $request->integer('count'),
-            'status' => $request->enum('status', ProductStatusEnum::class),
-        ]);
+        // достаем из DTO все данные, кроме картинок
+        $product = auth()->user()->products()->create(
+            $dto->except('images')->toArray()
+        );
 
-        foreach ($request->file('images') as $image) {
-            // сохраняем картинку в публичном доступе
-            $path = $image->storePublicly('images');
+        // достаем из DTO только картинки
+        $images = Arr::get($dto->toArray(), 'images');
 
-            $product->images()->create([
-                'url' => Storage::url($path),
-            ]);
+        if (!empty($images)) {
+            foreach ($images as $image) {
+                // сохраняем картинку в публичном доступе
+                $path = $image->storePublicly('images');
+
+                $product->images()->create([
+                    'url' => Storage::url($path),
+                ]);
+            }
         }
 
         return $product;

@@ -47,7 +47,8 @@ class ProductController extends Controller implements HasMiddleware
 
     public function store(StoreProductRequest $request)
     {
-        $product = ProductFacade::store($request);
+        // преобразуем реквест в DTO и передаем в сервис
+        $product = ProductFacade::store($request->dto());
 
         return ProductResource::make($product);
     }
