@@ -14,8 +14,16 @@ class ApiRequest extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {
+        $errorCount = $validator->errors()->count();
+
+        $firstError = $validator->errors()->first();
+
+        $messageAdditionalText = $errorCount > 1
+            ? ' (' . trans_choice('validation.errors_count', $errorCount - 1, ['count' => $errorCount - 1]) . ')'
+            : '';
+
         throw new HttpResponseException(response()->json([
-            'message' => 'Error validation',
+            'message' => $firstError . $messageAdditionalText,
             'errors' => $validator->getMessageBag(),
         ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
