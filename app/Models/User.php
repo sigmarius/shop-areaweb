@@ -59,7 +59,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'login',
+        'avatar',
         'password',
+        'is_verified'
     ];
 
     /**
@@ -93,5 +96,21 @@ class User extends Authenticatable
     public function reviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class)
+            ->with('subscriber');
     }
 }

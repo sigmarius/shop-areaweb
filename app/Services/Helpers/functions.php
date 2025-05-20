@@ -20,5 +20,5 @@ function responseFailed(
         'status' => 'error',
         'message' => $message ?? __('errors.default_core.default_error'),
         'error' => $error,
-    ], $code);
+    ], $code, options: JSON_UNESCAPED_UNICODE);
 }
