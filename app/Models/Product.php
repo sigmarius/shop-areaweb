@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
- *
  * @property int $id
  * @property int|null $user_id
  * @property string|null $name
@@ -26,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductReview> $reviews
  * @property-read int|null $reviews_count
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
@@ -39,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Product extends Model
@@ -81,8 +81,6 @@ class Product extends Model
 
     /**
      * Продукт опубликован
-     *
-     * @return bool
      */
     public function isDraft(): bool
     {
@@ -92,7 +90,7 @@ class Product extends Model
     public function imagesList(): array
     {
         return $this->images
-            ->map(fn(ProductImage $image) => $image->url)
+            ->map(fn (ProductImage $image) => $image->url)
             ->toArray();
     }
 }
