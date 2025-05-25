@@ -57,7 +57,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsVerified($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLogin($value)
- *
+ * @property string|null $about
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAbout($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -78,6 +79,7 @@ class User extends Authenticatable
         'email',
         'login',
         'avatar',
+        'about',
         'password',
         'is_verified',
     ];
@@ -129,5 +131,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subscription::class)
             ->with('subscriber');
+    }
+
+    public function subscriptionsCount(): ?int
+    {
+        return $this->subscriptions->count();
+    }
+
+    public function postsCount(): ?int
+    {
+        return $this->posts->count();
     }
 }
