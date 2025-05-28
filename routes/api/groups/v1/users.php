@@ -1,14 +1,17 @@
 <?php
 
-use App\Http\Controllers\Api\v1\RegisterController;
-use App\Http\Controllers\Api\v1\UserController;
-use Illuminate\Support\Facades\Route;
+declare(strict_types=1);
 
-Route::controller(UserController::class)->group(function () {
-    Route::post('/login', 'login')->name('login');
-});
+use App\Http\Controllers\Api\v1\LoginController;
+use App\Http\Controllers\Api\v1\RegisterController;
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
     Route::post('/register', RegisterController::class)
         ->name('register');
+
+
+    Route::post('/login', LoginController::class)
+        ->name('login');
+
 });

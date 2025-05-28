@@ -11,5 +11,8 @@ return [
     ],
     'product' => [
         'not_found' => 'Product not found'
+    ],
+    'user' => [
+        'invalid_credentials' => 'Invalid credentials',
     ]
 ];

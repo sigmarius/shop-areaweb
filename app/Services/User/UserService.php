@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\User;
 
+use App\DTOs\User\LoginUserDTO;
 use App\DTOs\User\RegisterUserDTO;
+use App\Exceptions\User\InvalidUserCredentialsException;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Models\User;
+use Laravel\Sanctum\NewAccessToken;
 
 class UserService
 {
@@ -16,5 +19,25 @@ class UserService
             User::query()
                 ->create($data->toArray())
         );
+    }
+
+    /**
+     * @throws InvalidUserCredentialsException
+     */
+    public function login(LoginUserDTO $data): array
+    {
+        // guard 'api' не имеет метода attempt, поэтому используем guard 'web'
+        if (!auth()->guard('web')->attempt($data->toArray())) {
+            throw new InvalidUserCredentialsException();
+        }
+
+        // если мы проверяли пользователя через guard 'web' - получаем его также через guard 'web'
+        /** @var NewAccessToken $token */
+        $token = auth()->guard('web')->user()
+            ->createToken('api_login');
+
+        return [
+            'token' => $token->plainTextToken,
+        ];
     }
 }
