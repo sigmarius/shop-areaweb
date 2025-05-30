@@ -21,7 +21,7 @@ class LoginUserTest extends TestCase
     public function success_auth_with_email(): void
     {
         $response = $this->postJson(route('api.v1.user.login'), [
-            'email' => $this->currentUser->email,
+            'email' => $this->getCurrentUser()->email,
             'password' => 'password'
         ]);
 
@@ -34,7 +34,7 @@ class LoginUserTest extends TestCase
     public function success_auth_with_login(): void
     {
         $response = $this->postJson(route('api.v1.user.login'), [
-            'login' => $this->currentUser->login,
+            'login' => $this->getCurrentUser()->login,
             'password' => 'password'
         ]);
 

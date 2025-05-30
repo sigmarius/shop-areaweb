@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use App\Models\User;
@@ -9,7 +11,7 @@ use Tests\Feature\Product\CreateProductTest;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected User $currentUser;
+    private User $currentUser;
 
     /**
      * Дефолтная авторизация пользователя в системе -
@@ -32,5 +34,10 @@ abstract class TestCase extends BaseTestCase
     protected function getCurrentUserId(): int
     {
         return $this->currentUser->id;
+    }
+
+    protected function getCurrentUser(): User
+    {
+        return $this->currentUser;
     }
 }
