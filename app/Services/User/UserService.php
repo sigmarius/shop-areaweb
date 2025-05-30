@@ -9,6 +9,8 @@ use App\DTOs\User\RegisterUserDTO;
 use App\Exceptions\User\InvalidUserCredentialsException;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\NewAccessToken;
 
 class UserService
@@ -39,5 +41,18 @@ class UserService
         return [
             'token' => $token->plainTextToken,
         ];
+    }
+
+    public function uploadAvatar(UploadedFile $avatar): User
+    {
+        $path = $avatar->storePublicly('avatars');
+
+        $url = Storage::url($path);
+
+        auth()->user()->update([
+            'avatar' => $url
+        ]);
+
+        return auth()->user();
     }
 }

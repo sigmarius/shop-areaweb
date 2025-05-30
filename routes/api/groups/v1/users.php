@@ -18,6 +18,9 @@ Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('/', 'profile')
                 ->name('profile');
+
+            Route::post('avatar', 'uploadAvatar')
+                ->name('avatar.upload');
         });
     });
 });

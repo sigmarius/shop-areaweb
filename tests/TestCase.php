@@ -24,7 +24,8 @@ abstract class TestCase extends BaseTestCase
     protected function signIn(bool $isAdmin = true): void
     {
         $this->currentUser = User::factory()->create([
-            'is_admin' => $isAdmin
+            'is_admin' => $isAdmin,
+            'avatar' => null
         ]);
 
         // имитируем авторизацию в Sanctum
