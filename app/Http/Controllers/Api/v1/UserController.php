@@ -10,7 +10,9 @@ use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Http\Requests\User\UploadAvatarRequest;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Http\Resources\v1\User\UserResource;
+use App\Http\Resources\v1\User\UserSubscribersResource;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
@@ -36,5 +38,16 @@ class UserController extends Controller
     public function getUser(User $user): UserResource
     {
         return UserResource::make($user);
+    }
+
+    /**
+     * Информация о подписчиках пользователя, ID которого передан в Path Variables
+     *
+     * @param User $user
+     * @return AnonymousResourceCollection
+     */
+    public function userSubscribers(User $user): AnonymousResourceCollection
+    {
+        return UserSubscribersResource::collection($user->subscriptions);
     }
 }
