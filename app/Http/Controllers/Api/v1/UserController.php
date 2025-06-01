@@ -50,4 +50,11 @@ class UserController extends Controller
     {
         return UserSubscribersResource::collection($user->subscriptions);
     }
+
+    public function subscribe(User $user)
+    {
+        return response()->json([
+            'state' => $user->subscribe()
+        ]);
+    }
 }

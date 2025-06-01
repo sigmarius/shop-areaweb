@@ -16,5 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
             // Информация о подписчиках пользователя, ID которого передан в Path Variables
             Route::get('/{user}/subscribers', 'userSubscribers')
                 ->name('subscribers');
+
+            Route::post('/{user}/subscribe', 'subscribe')
+                ->name('subscribe');
         });
 });
