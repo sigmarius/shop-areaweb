@@ -3,6 +3,7 @@
     "rules": {
         "declare_strict_types": true,
         "concat_space": false,
-        "single_quote": true
+        "single_quote": true,
+        "braces": true
     }
 }

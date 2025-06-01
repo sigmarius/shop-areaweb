@@ -19,6 +19,9 @@ Route::group(['prefix' => '/user', 'as' => 'user.'], function () {
             Route::get('/', 'profile')
                 ->name('profile');
 
+            Route::patch('/', 'updateProfile')
+                ->name('update');
+
             Route::post('avatar', 'uploadAvatar')
                 ->name('avatar.upload');
         });

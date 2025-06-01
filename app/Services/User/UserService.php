@@ -6,6 +6,7 @@ namespace App\Services\User;
 
 use App\DTOs\User\LoginUserDTO;
 use App\DTOs\User\RegisterUserDTO;
+use App\DTOs\User\UpdateUserDTO;
 use App\Exceptions\User\InvalidUserCredentialsException;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Models\User;
@@ -52,6 +53,13 @@ class UserService
         auth()->user()->update([
             'avatar' => $url
         ]);
+
+        return auth()->user();
+    }
+
+    public function update(UpdateUserDTO $data): User
+    {
+        auth()->user()->update($data->toArray());
 
         return auth()->user();
     }
