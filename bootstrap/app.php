@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
-        then: function () {
+        then: function (): void {
             Route::middleware('api')
                 ->prefix('api/v1')
                 ->name('api.v1.')
@@ -30,13 +30,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(__DIR__.'/../routes/api/api_v2.php');
         }
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'product.draft' => DraftProductMiddleware::class
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (ThrottleRequestsException $exception) {
             return responseFailed(
                 __('errors.default_core.throttle_error'),

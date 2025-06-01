@@ -42,6 +42,7 @@ class ProductService
     public function store(CreateProductDTO $dto): Product
     {
         // достаем из DTO все данные, кроме картинок
+        /** @var Product $product */
         $product = auth()->user()->products()->create(
             $dto->except('images')->toArray()
         );

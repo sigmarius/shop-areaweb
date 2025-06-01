@@ -5,11 +5,11 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function (): void {
     Route::controller(UserController::class)
         ->prefix('/users')
         ->as('users.')
-        ->group(function () {
+        ->group(function (): void {
             Route::get('/{user}', 'getUser')
                 ->name('get-user');
 
