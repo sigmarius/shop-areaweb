@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DraftProductMiddleware;
 use Illuminate\Auth\AuthenticationException;
@@ -16,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
-        then: function() {
+        then: function () {
             Route::middleware('api')
                 ->prefix('api/v1')
                 ->name('api.v1.')
@@ -44,7 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
         $exceptions->render(function (NotFoundHttpException $exception) {
             $message = $exception->getPrevious() instanceof ModelNotFoundException
-                ? __('errors.default_core.model_not_found')
+                ? getModelNotFoundMessage($exception->getPrevious()->getModel())
                 : __('errors.default_core.route_not_found');
 
             return responseFailed(

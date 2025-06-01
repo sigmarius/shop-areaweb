@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -125,6 +127,19 @@ class User extends Authenticatable
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Авторизованный пользователь подписан на указанного пользователя?
+     *
+     * @return bool
+     */
+    public function isSubscribed(): bool
+    {
+        return Subscription::query()
+            ->where('user_id', $this->id)
+            ->where('subscriber_id', auth()->id())
+            ->exists();
     }
 
     public function subscriptions(): HasMany

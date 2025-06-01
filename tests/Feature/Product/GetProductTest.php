@@ -111,7 +111,7 @@ class GetProductTest extends TestCase
 
         $response->assertJson([
             'status' => 'error',
-            'message' => __('errors.default_core.model_not_found'),
+            'message' => __('errors.default_core.model_not_found', ['model' => 'Product']),
             'error' => 'No query results for model [App\\Models\\Product] 0'
         ]);
     }
