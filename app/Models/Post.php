@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Database\Factories\PostFactory;
@@ -58,5 +60,23 @@ class Post extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function totalLikes(): ?int
+    {
+        return $this->likes->count();
+    }
+
+    public function isLiked(): bool
+    {
+        return Like::query()
+            ->where('post_id', $this->id)
+            ->where('user_id', auth()->id())
+            ->exists();
+    }
+
+    public function totalComments(): int
+    {
+        return $this->comments->count();
     }
 }
