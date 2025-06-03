@@ -39,6 +39,7 @@ if (!function_exists('getModelNotFoundMessage')) {
         return match ($model) {
             'App\Models\User' => __('errors.default_core.model_not_found', ['model' => 'User']),
             'App\Models\Product' => __('errors.default_core.model_not_found', ['model' => 'Product']),
+            'App\Models\Post' => __('errors.default_core.model_not_found', ['model' => 'Post']),
             default => Str::replace(
                 ' :model',
                 '',
