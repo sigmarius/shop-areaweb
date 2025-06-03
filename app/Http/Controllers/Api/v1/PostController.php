@@ -10,9 +10,18 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Resources\v1\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PostController extends Controller
+class PostController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('post.access', only: ['destroy'])
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -52,6 +61,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return response()->noContent();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DraftProductMiddleware;
+use App\Http\Middleware\PostAccessMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -33,7 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => AdminMiddleware::class,
-            'product.draft' => DraftProductMiddleware::class
+            'product.draft' => DraftProductMiddleware::class,
+            'post.access' => PostAccessMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

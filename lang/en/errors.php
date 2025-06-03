@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'default_core' => [
         'default_error' => 'Something went wrong while trying to process your request.',
@@ -14,5 +16,8 @@ return [
     ],
     'user' => [
         'invalid_credentials' => 'Invalid credentials',
+    ],
+    'post' => [
+        'access_denied' => 'You have not access to this post',
     ]
 ];
