@@ -14,5 +14,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->group(function () {
             Route::post('{post}/like', 'like')
                 ->name('like');
+
+            Route::post('{post}/comment', 'addComment')
+                ->name('comment');
         });
 });

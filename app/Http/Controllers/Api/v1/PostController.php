@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Facades\PostFacade;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\AddPostCommentRequest;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Http\Resources\v1\Comment\CommentResource;
 use App\Http\Resources\v1\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
@@ -76,5 +78,13 @@ class PostController extends Controller implements HasMiddleware
         return response()->json([
             'state' => $post->like(),
         ]);
+    }
+
+    public function addComment(Post $post, AddPostCommentRequest $request)
+    {
+        return CommentResource::make(
+            $post->comments()
+                ->create($request->toDTO()->toArray())
+        );
     }
 }
