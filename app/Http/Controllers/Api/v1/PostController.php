@@ -7,9 +7,11 @@ namespace App\Http\Controllers\Api\v1;
 use App\Facades\PostFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\AddPostCommentRequest;
+use App\Http\Requests\Post\GetPostsFeedRequest;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\v1\Comment\CommentResource;
+use App\Http\Resources\v1\Post\PostFeedResource;
 use App\Http\Resources\v1\Post\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
@@ -29,15 +31,20 @@ class PostController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GetPostsFeedRequest $request): JsonResponse
     {
-        //
+        return response()->json([
+            'total' => PostFacade::totalFeedPosts(),
+            'posts' => PostFeedResource::collection(
+                PostFacade::feed($request->limit(), $request->offset())
+            )
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): PostResource
     {
         return PostResource::make(
             PostFacade::store($request->toDTO())
@@ -80,7 +87,7 @@ class PostController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function addComment(Post $post, AddPostCommentRequest $request)
+    public function addComment(Post $post, AddPostCommentRequest $request): CommentResource
     {
         return CommentResource::make(
             $post->comments()

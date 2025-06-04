@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\ProductStatusEnum;
@@ -10,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ *
+ *
  * @property int $id
  * @property int|null $user_id
  * @property string|null $name
@@ -24,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductReview> $reviews
  * @property-read int|null $reviews_count
  * @property-read \App\Models\User|null $user
- *
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
@@ -38,7 +41,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class Product extends Model
@@ -74,9 +76,13 @@ class Product extends Model
             ->select('url');
     }
 
-    public function rating(): int|float
+    public function rating(): int|float|null
     {
-        return round($this->reviews->avg('rating'), 1);
+        $averageRating = $this->reviews->avg('rating');
+
+        return !empty($averageRating)
+            ? round($averageRating, 1)
+            : null;
     }
 
     /**

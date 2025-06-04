@@ -23,13 +23,18 @@ abstract class TestCase extends BaseTestCase
      */
     protected function signIn(bool $isAdmin = true): void
     {
+        $this->createCurrentUser($isAdmin);
+
+        // имитируем авторизацию в Sanctum
+        Sanctum::actingAs($this->currentUser);
+    }
+
+    protected function createCurrentUser(bool $isAdmin = true): void
+    {
         $this->currentUser = User::factory()->create([
             'is_admin' => $isAdmin,
             'avatar' => null
         ]);
-
-        // имитируем авторизацию в Sanctum
-        Sanctum::actingAs($this->currentUser);
     }
 
     protected function getCurrentUserId(): int
