@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Facades\PostFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\v1\Post\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -51,9 +51,12 @@ class PostController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $post = PostFacade::setPost($post)
+            ->update($request->toDTO());
+
+        return PostResource::make($post);
     }
 
     /**
