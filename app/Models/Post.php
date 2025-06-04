@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\LikeState;
 use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -73,6 +74,26 @@ class Post extends Model
             ->where('post_id', $this->id)
             ->where('user_id', auth()->id())
             ->exists();
+    }
+
+    public function like(): LikeState
+    {
+        $like = Like::query()
+            ->where('post_id', $this->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (is_null($like)) {
+            $this->likes()->create([
+                'user_id' => auth()->id(),
+            ]);
+
+            return LikeState::Liked;
+        }
+
+        $like->delete();
+
+        return LikeState::Unliked;
     }
 
     public function totalComments(): int

@@ -10,6 +10,8 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\v1\Post\PostResource;
 use App\Models\Post;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -43,7 +45,7 @@ class PostController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post): PostResource
     {
         return PostResource::make($post);
     }
@@ -51,7 +53,7 @@ class PostController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): PostResource
     {
         $post = PostFacade::setPost($post)
             ->update($request->toDTO());
@@ -62,10 +64,17 @@ class PostController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post): Response
     {
         $post->delete();
 
         return response()->noContent();
+    }
+
+    public function like(Post $post): JsonResponse
+    {
+        return response()->json([
+            'state' => $post->like(),
+        ]);
     }
 }
