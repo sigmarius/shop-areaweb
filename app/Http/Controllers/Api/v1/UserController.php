@@ -6,12 +6,15 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Facades\UserFacade;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\GetPostsFeedRequest;
 use App\Http\Requests\User\UpdateUserProfileRequest;
 use App\Http\Requests\User\UploadAvatarRequest;
+use App\Http\Resources\v1\Post\PostFeedResource;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Http\Resources\v1\User\UserResource;
 use App\Http\Resources\v1\User\UserSubscribersResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
@@ -55,6 +58,14 @@ class UserController extends Controller
     {
         return response()->json([
             'state' => $user->subscribe()
+        ]);
+    }
+
+    public function ownPosts(User $user, GetPostsFeedRequest $request): JsonResponse
+    {
+        return response()->json([
+            'posts' => PostFeedResource::collection(UserFacade::ownPosts($user, $request->limit, $request->offset)),
+            'total' => $user->postsCount()
         ]);
     }
 }

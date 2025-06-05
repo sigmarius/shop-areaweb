@@ -10,6 +10,7 @@ use App\DTOs\User\UpdateUserDTO;
 use App\Exceptions\User\InvalidUserCredentialsException;
 use App\Http\Resources\v1\User\CurrentUserResource;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Laravel\Sanctum\NewAccessToken;
 
@@ -57,5 +58,14 @@ class UserService
         auth()->user()->update($data->toArray());
 
         return auth()->user();
+    }
+
+    public function ownPosts(User $user, int $limit = 10, int $offset = 0): Collection
+    {
+        return $user->posts()
+            ->limit($limit)
+            ->offset($offset)
+            ->orderByDesc('created_at')
+            ->get();
     }
 }

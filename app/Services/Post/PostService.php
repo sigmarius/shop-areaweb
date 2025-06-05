@@ -53,6 +53,10 @@ class PostService
             ->get();
     }
 
+    /**
+     * Общее количество постов пользователей, на которых подписан авторизованный пользователь
+     * @return int|null
+     */
     public function totalFeedPosts(): ?int
     {
         return auth()->user()

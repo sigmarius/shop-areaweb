@@ -19,5 +19,8 @@ Route::middleware('auth:sanctum')->group(function (): void {
 
             Route::post('/{user}/subscribe', 'subscribe')
                 ->name('subscribe');
+
+            Route::get('/{user}/posts', 'ownPosts')
+                ->name('posts');
         });
 });

@@ -9,6 +9,7 @@ use App\DTOs\User\RegisterUserDTO;
 use App\DTOs\User\UpdateUserDTO;
 use App\Models\User;
 use App\Services\User\UserService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Facade;
 
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array login(LoginUserDTO $data)
  * @method static User uploadAvatar(UploadedFile $avatar)
  * @method static User update(UpdateUserDTO $data)
+ * @method static Collection ownPosts(User $user, int $limit, int $offset)
  *
  * @see UserService
  */
