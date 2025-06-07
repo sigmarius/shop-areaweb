@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Product;
 
 use App\DTOs\CreateProductDTO;
@@ -34,6 +36,7 @@ class ProductService
     public function published(array $fields = ['id', 'name', 'price']): Collection
     {
         return Product::query()
+            ->with(['reviews'])
             ->select($fields)
             ->where('status', ProductStatusEnum::Published)
             ->get();

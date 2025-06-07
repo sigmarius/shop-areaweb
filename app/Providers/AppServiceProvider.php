@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Services\Post\PostService;
 use App\Services\Product\ProductService;
 use App\Services\User\UserService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Model::shouldBeStrict(!app()->isProduction());
     }
 }

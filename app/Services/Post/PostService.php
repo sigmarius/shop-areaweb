@@ -47,6 +47,7 @@ class PostService
     {
         return auth()->user()
             ->feedPosts()
+            ->with(['user', 'likes', 'comments'])
             ->limit($limit)
             ->offset($offset)
             ->orderByDesc('created_at')

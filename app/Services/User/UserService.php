@@ -63,6 +63,7 @@ class UserService
     public function ownPosts(User $user, int $limit = 10, int $offset = 0): Collection
     {
         return $user->posts()
+            ->with(['user', 'likes', 'comments'])
             ->limit($limit)
             ->offset($offset)
             ->orderByDesc('created_at')

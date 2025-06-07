@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions\Product;
 
 use Exception;
@@ -32,7 +34,12 @@ class ProductNotFoundException extends Exception
      */
     public function report(): void
     {
-        logger()->debug('ProductNotFoundException', [$this->getFile()]);
+        logger()->debug(get_class($this), [
+            'message' => $this->getMessage(),
+            'file' => $this->getFile(),
+            'line' => $this->getLine(),
+            'context' => $this->context()
+        ]);
     }
 
     /**
@@ -49,5 +56,14 @@ class ProductNotFoundException extends Exception
             'Product is draft',
             $this->getCode()
         );
+    }
+
+    public function context(): array
+    {
+        return [
+            'productId' => request()->route()
+                ->parameter('product')
+                ->id,
+        ];
     }
 }

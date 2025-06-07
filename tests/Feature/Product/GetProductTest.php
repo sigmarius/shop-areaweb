@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Product;
 
 use App\Enums\ProductStatusEnum;
@@ -130,6 +132,8 @@ class GetProductTest extends TestCase
 
     private function getReviews(): array
     {
+        $this->product->load(['reviews', 'reviews.user']);
+
         return $this->product->reviews
             ->map(fn(ProductReview $review) => [
                 'id' => $review->id,

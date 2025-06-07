@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\v1;
 
 use App\Facades\ProductFacade;
@@ -42,7 +44,9 @@ class ProductController extends Controller implements HasMiddleware
 
     public function show(Product $product)
     {
-        return ProductResource::make($product);
+        return ProductResource::make(
+            $product->load(['reviews', 'reviews.user'])
+        );
     }
 
     public function store(StoreProductRequest $request)
